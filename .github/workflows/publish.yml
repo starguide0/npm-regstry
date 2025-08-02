@@ -14,10 +14,11 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    # Git push와 패키지 발행을 위해 필요한 권한을 job 레벨에 부여합니다.
     permissions:
-      contents: write
-      packages: write
-      pull-requests: write
+      contents: write # 버전 변경 사항을 main 브랜치에 푸시하기 위함
+      packages: write # GitHub Packages에 패키지를 발행하기 위함
+      pull-requests: read # PR을 생성하지 않으므로 읽기 권한만 있어도 충분
 
     steps:
       - name: Checkout repository
@@ -25,14 +26,6 @@ jobs:
         with:
           # Changesets가 정확한 changelog를 생성할 수 있도록 전체 Git 기록을 가져옵니다.
           fetch-depth: 0
-
-      - name: Check file path
-        run: |
-          echo "Current working directory is: $(pwd)"
-          echo "Files in current directory:"
-          ls -F
-          echo "Searching for pnpm-lock.yaml:"
-          find . -name "pnpm-lock.yaml"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
@@ -42,8 +35,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: 'pnpm'
+          node-version: 20 # pnpm 9와 더 나은 호환성을 위해 Node.js 20 LTS를 권장합니다.
+          cache: 'pnpm' # pnpm을 자동으로 설치하고 캐시를 사용합니다.
 
       - name: Install dependencies
         # env를 사용하여 pnpm이 인증 토큰을 자동으로 사용하도록 합니다.
@@ -54,17 +47,30 @@ jobs:
       - name: Build all packages
         run: pnpm build
 
-      - name: Create Release Pull Request or Publish to GitHub Packages
-        id: changesets
+      - name: Version packages with Changesets # 이 스텝은 버전 업데이트 커밋만 생성합니다.
+        id: changesets_version
         uses: changesets/action@v1
         with:
-          # 이전에 publish 스크립트를 호출했지만, 이제는 version 스크립트만 실행합니다.
-          version: pnpm version-packages
-          # PR 생성 대신 main 브랜치에 직접 푸시하도록 변경합니다.
-          publish: "false"
-          commit: "Release: Version Packages"
+          version: pnpm version-packages # package.json의 'version-packages' 스크립트 실행
+          commit: "Release: Version Packages" # 버전 업데이트 커밋 메시지
+          publish: "false" # 패키지 발행은 다음 스텝에서 수동으로 처리합니다.
         env:
-          # changesets/action은 GITHUB_TOKEN을 사용
+          # Changesets가 Git 작업을 수행할 수 있도록 GITHUB_TOKEN을 전달합니다.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # pnpm publish는 NODE_AUTH_TOKEN을 사용
+
+      - name: Push version changes and Publish packages # 버전 변경 푸시 및 패키지 발행 스텝
+        run: |
+          # Git 사용자 정보를 설정합니다. (changesets 액션에서 이미 설정했으므로 중복될 수 있으나, 안전을 위해 유지)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Changesets가 생성한 버전 변경 커밋을 main 브랜치에 직접 푸시합니다.
+          # HEAD는 현재 작업 브랜치(main)를 가리킵니다.
+          git push origin HEAD:main
+          
+          # package.json에 정의된 'release' 스크립트를 실행합니다.
+          # 이 스크립트는 'pnpm build && changeset publish'를 포함합니다.
+          pnpm release
+        env:
+          # pnpm publish가 GitHub Packages에 인증할 수 있도록 NODE_AUTH_TOKEN을 전달합니다.
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
