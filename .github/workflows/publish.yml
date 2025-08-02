@@ -1,0 +1,55 @@
+# .github/workflows/publish.yml
+name: Release and Publish Packages
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.changeset/**'
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+
+      - name: Create Release Pull Request or Publish to GitHub Packages
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm release
+          title: "Release: Version Packages"
+          commit: "Release: Version Packages"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
