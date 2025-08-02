@@ -19,7 +19,7 @@
     "test:coverage": "vitest run --coverage",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm build && pnpm config set registry https://npm.pkg.github.com/ && changeset publish"
+    "release": "pnpm build && changeset publish --registry https://npm.pkg.github.com/"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",

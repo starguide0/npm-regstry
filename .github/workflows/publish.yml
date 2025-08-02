@@ -26,10 +26,18 @@ jobs:
           # Changesets가 정확한 changelog를 생성할 수 있도록 전체 Git 기록을 가져옵니다.
           fetch-depth: 0
 
+      - name: Check file path
+        run: |
+          echo "Current working directory is: $(pwd)"
+          echo "Files in current directory:"
+          ls -F
+          echo "Searching for pnpm-lock.yaml:"
+          find . -name "pnpm-lock.yaml"
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
