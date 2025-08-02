@@ -18,7 +18,7 @@ jobs:
     permissions:
       contents: write # 버전 변경 사항을 main 브랜치에 푸시하기 위함
       packages: write # GitHub Packages에 패키지를 발행하기 위함
-      pull-requests: read # PR을 생성하지 않으므로 읽기 권한만 있어도 충분
+      pull-requests: write # PR을 생성하지 않으므로 읽기 권한만 있어도 충분
 
     steps:
       - name: Checkout repository
