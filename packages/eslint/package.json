@@ -22,6 +22,11 @@
   ],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/starguide0/npm-regstry.git",
+    "directory": "packages/eslint"
+  },
   "dependencies": {
     "eslint": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
