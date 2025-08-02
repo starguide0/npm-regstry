@@ -100,11 +100,3 @@ npm-regstry2/
 2. 코드 변경 시 `pnpm changeset`을 사용하여 체인지셋을 생성합니다
 3. 모든 커밋 전에 `pnpm lint`와 `pnpm test`를 실행합니다
 4. 코드 포맷팅은 `pnpm format`으로 자동화됩니다
-
-## 📄 라이선스
-
-ISC
-
----
-
-이 프로젝트는 모던 JavaScript/TypeScript 개발 환경을 위한 모노레포 템플릿입니다.
