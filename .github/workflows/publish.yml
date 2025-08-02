@@ -54,6 +54,7 @@ jobs:
           version: pnpm version-packages # package.json의 'version-packages' 스크립트 실행
           commit: "Release: Version Packages" # 버전 업데이트 커밋 메시지
           publish: "false" # 패키지 발행은 다음 스텝에서 수동으로 처리합니다.
+          createPullRequest: false
         env:
           # Changesets가 Git 작업을 수행할 수 있도록 GITHUB_TOKEN을 전달합니다.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
