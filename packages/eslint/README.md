@@ -1,17 +1,17 @@
-# @npm-registry/eslint
+# @starguide0/eslint
 
 프로젝트 전반에서 사용할 수 있는 공유 ESLint 설정을 제공하는 패키지입니다.
 
 ## 설치
 
 ```bash
-npm install @npm-registry/eslint
+npm install @starguide0/eslint
 ```
 
 또는
 
 ```bash
-pnpm add @npm-registry/eslint
+pnpm add @starguide0/eslint
 ```
 
 ## 개요

@@ -1,5 +1,5 @@
 {
-  "name": "@npm-registry/typescript",
+  "name": "@starguide0/typescript",
   "version": "1.1.0",
   "description": "Shared TypeScript configurations",
   "main": "dist/index.js",
