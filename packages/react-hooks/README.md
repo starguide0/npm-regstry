@@ -1,17 +1,17 @@
-# @npm-registry/react-hooks
+# @starguide0/react-hooks
 
 React 애플리케이션에서 사용할 수 있는 공유 React 훅 라이브러리입니다.
 
 ## 설치
 
 ```bash
-npm install @npm-registry/react-hooks
+npm install @starguide0/react-hooks
 ```
 
 또는
 
 ```bash
-pnpm add @npm-registry/react-hooks
+pnpm add @starguide0/react-hooks
 ```
 
 ## 사용법
@@ -25,7 +25,7 @@ pnpm add @npm-registry/react-hooks
 #### 기본 사용법
 
 ```tsx
-import { useInstance } from '@npm-registry/react-hooks';
+import { useInstance } from '@starguide0/react-hooks';
 
 const MyComponent = () => {
   const expensiveObject = useInstance(() => new ExpensiveClass());
@@ -37,7 +37,7 @@ const MyComponent = () => {
 #### Map 인스턴스 유지
 
 ```tsx
-import { useInstance } from '@npm-registry/react-hooks';
+import { useInstance } from '@starguide0/react-hooks';
 
 const CacheComponent = () => {
   const cache = useInstance(() => new Map<string, any>());
@@ -53,7 +53,7 @@ const CacheComponent = () => {
 #### 설정 객체 생성
 
 ```tsx
-import { useInstance } from '@npm-registry/react-hooks';
+import { useInstance } from '@starguide0/react-hooks';
 
 const ConfigComponent = () => {
   const config = useInstance(() => ({

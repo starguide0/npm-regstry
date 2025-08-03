@@ -1,17 +1,17 @@
-# @npm-registry/eslint
+# @starguide0/eslint
 
 프로젝트 전반에서 사용할 수 있는 공유 ESLint 설정을 제공하는 패키지입니다.
 
 ## 설치
 
 ```bash
-npm install @npm-registry/eslint
+npm install @starguide0/eslint
 ```
 
 또는
 
 ```bash
-pnpm add @npm-registry/eslint
+pnpm add @starguide0/eslint
 ```
 
 ## 개요
@@ -25,7 +25,7 @@ pnpm add @npm-registry/eslint
 프로젝트의 `eslint.config.js` 파일에서 기본 설정을 사용할 수 있습니다:
 
 ```javascript
-import baseConfig from '@npm-registry/eslint/configs/base.js';
+import baseConfig from '@starguide0/eslint/configs/base.js';
 
 export default [
   ...baseConfig,
@@ -38,7 +38,7 @@ export default [
 라이브러리나 패키지 개발 시에는 더 엄격한 설정을 사용할 수 있습니다:
 
 ```javascript
-import libraryConfig from '@npm-registry/eslint/configs/library.js';
+import libraryConfig from '@starguide0/eslint/configs/library.js';
 
 export default [
   ...libraryConfig,
@@ -108,7 +108,7 @@ export default [
 ### React 프로젝트
 
 ```javascript
-import baseConfig from '@npm-registry/eslint/configs/base.js';
+import baseConfig from '@starguide0/eslint/configs/base.js';
 
 export default [
   ...baseConfig,
@@ -131,7 +131,7 @@ export default [
 ### Node.js 라이브러리
 
 ```javascript
-import libraryConfig from '@npm-registry/eslint/configs/library.js';
+import libraryConfig from '@starguide0/eslint/configs/library.js';
 
 export default [
   ...libraryConfig,
@@ -146,8 +146,8 @@ export default [
 ### 모노레포 설정
 
 ```javascript
-import baseConfig from '@npm-registry/eslint/configs/base.js';
-import libraryConfig from '@npm-registry/eslint/configs/library.js';
+import baseConfig from '@starguide0/eslint/configs/base.js';
+import libraryConfig from '@starguide0/eslint/configs/library.js';
 
 export default [
   // 일반 소스 코드
@@ -164,7 +164,7 @@ export default [
 ### 커스텀 규칙 추가
 
 ```javascript
-import baseConfig from '@npm-registry/eslint/configs/base.js';
+import baseConfig from '@starguide0/eslint/configs/base.js';
 
 export default [
   ...baseConfig,

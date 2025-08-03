@@ -1,18 +1,16 @@
-# .github/workflows/publish.yml
-name: Publish Packages
+name: Publish on Release
 
 on:
   release:
     types: [published]
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
 jobs:
   publish:
-    name: Publish
+    name: Publish Packages
     runs-on: ubuntu-latest
     permissions:
-      packages: write # 패키지 발행을 위해 필요
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -29,15 +27,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm' # <-- 이 옵션이 pnpm 설치와 캐싱을 모두 처리합니다.
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build all packages
-        run: pnpm build
 
       - name: Publish Packages
         run: pnpm release

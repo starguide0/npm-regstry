@@ -1,5 +1,5 @@
 {
-  "name": "@npm-registry/shared-types",
+  "name": "@starguide0/shared-types",
   "version": "1.2.0",
   "description": "Shared TypeScript utility types",
   "main": "dist/index.js",

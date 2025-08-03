@@ -1,4 +1,4 @@
-# @npm-registry/typescript
+# @starguide0/typescript
 
 ## 1.2.0
 
