@@ -15,7 +15,7 @@ jobs:
     name: Update Versions
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Git 푸시 및 커밋을 위해 필요
+      contents: write
       pull-requests: read
 
     steps:
@@ -23,11 +23,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
 
       - name: Setup Node.js and pnpm
         uses: actions/setup-node@v4
@@ -42,11 +37,14 @@ jobs:
 
       - name: Build all packages
         run: pnpm build
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Changeset Version
         run: pnpm version-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check for Changes
         id: changes
