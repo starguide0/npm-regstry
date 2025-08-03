@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import { execSync } from 'child_process';
+import {execSync} from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,12 +67,10 @@ function getCommitsSinceMain() {
  */
 function getChangedFilesInCommit(commitHash) {
   try {
-    const files = execSync(`git show --name-only --format="" ${commitHash}`, { encoding: 'utf8' })
-      .trim()
-      .split('\n')
-      .filter(line => line.length > 0);
-
-    return files;
+    return execSync(`git show --name-only --format="" ${commitHash}`, {encoding: 'utf8'})
+        .trim()
+        .split('\n')
+        .filter(line => line.length > 0);
   } catch (error) {
     console.error(`커밋 ${commitHash}의 변경된 파일을 가져오는 중 오류 발생:`, error.message);
     return [];
@@ -177,21 +175,22 @@ function categorizeCommits(commits) {
   commits.forEach(commit => {
     const msg = commit.message.trim();
     const lowerMsg = msg.toLowerCase();
+    const hash = commit.hash.substring(0, 7);
 
     if (lowerMsg.startsWith('feat')) {
-      categories.features.push(msg.replace(/^feat:\s*/i, ''));
+      categories.features.push(`${msg.replace(/^feat:\s*/i, '')} (${hash})`);
     } else if (lowerMsg.startsWith('fix')) {
-      categories.bugFixes.push(msg.replace(/^fix:\s*/i, ''));
+      categories.bugFixes.push(`${msg.replace(/^fix:\s*/i, '')} (${hash})`);
     } else if (lowerMsg.startsWith('refactor')) {
-      categories.refactoring.push(msg.replace(/^refactor:\s*/i, ''));
+      categories.refactoring.push(`${msg.replace(/^refactor:\s*/i, '')} (${hash})`);
     } else if (lowerMsg.startsWith('perf')) {
-      categories.performance.push(msg.replace(/^perf:\s*/i, ''));
+      categories.performance.push(`${msg.replace(/^perf:\s*/i, '')} (${hash})`);
     } else if (lowerMsg.startsWith('docs')) {
-      categories.documentation.push(msg.replace(/^docs:\s*/i, ''));
+      categories.documentation.push(`${msg.replace(/^docs:\s*/i, '')} (${hash})`);
     } else if (lowerMsg.startsWith('chore')) {
-      categories.chores.push(msg.replace(/^chore:\s*/i, ''));
+      categories.chores.push(`${msg.replace(/^chore:\s*/i, '')} (${hash})`);
     } else {
-      categories.others.push(msg);
+      categories.others.push(`${msg} (${hash})`);
     }
   });
 
@@ -259,17 +258,24 @@ function generateKoreanSummary(categories) {
 /**
  * 체인지셋 파일을 생성합니다.
  */
-function generateChangeset(packageName, commits) {
+function generateChangeset(packageName, commits, prUrl = null) {
   const versionType = determineVersionType(commits);
   const categories = categorizeCommits(commits);
   const summary = generateKoreanSummary(categories);
 
-  const changeset = `---
+  let changeset = `---
 "${packageName}": ${versionType}
 ---
 
 ${summary}
 `;
+
+  // PR 링크 추가
+  if (prUrl) {
+    // Extract PR number from URL for display
+    const prNumber = prUrl.split('/').pop();
+    changeset += `\n**관련 PR**: [#${prNumber}](${prUrl})\n`;
+  }
 
   return changeset;
 }
@@ -278,7 +284,10 @@ ${summary}
  * 메인 함수
  */
 function main() {
-  console.log('🔍 패키지별 커밋 분석을 시작합니다...\n');
+  // 명령행 인수에서 PR URL을 가져오기
+  const prUrl = process.argv[2] || null;
+  const prNumber = prUrl ? prUrl.split('/').pop() : null;
+  console.log(`🔍 패키지별 커밋 분석을 시작합니다... ${prNumber ? `(PR #${prNumber})` : ''}\n`);
 
   // 패키지 목록 가져오기
   const packages = getPackages();
@@ -326,7 +335,7 @@ function main() {
     });
 
     // 체인지셋 생성
-    const changeset = generateChangeset(packageName, commits);
+    const changeset = generateChangeset(packageName, commits, prUrl);
 
     // 파일로 저장
     const timestamp = Date.now();
