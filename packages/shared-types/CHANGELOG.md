@@ -1,4 +1,4 @@
-# @npm-registry/shared-types
+# @starguide0/shared-types
 
 ## 1.2.0
 

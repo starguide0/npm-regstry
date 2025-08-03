@@ -1,5 +1,5 @@
 {
-  "name": "@npm-registry/react-hooks",
+  "name": "@starguide0/react-hooks",
   "version": "1.2.0",
   "description": "Shared React hooks",
   "main": "dist/index.js",

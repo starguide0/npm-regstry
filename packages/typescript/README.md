@@ -1,17 +1,17 @@
-# @npm-registry/typescript
+# @starguide0/typescript
 
 프로젝트 전반에서 사용할 수 있는 공유 TypeScript 설정을 제공하는 패키지입니다.
 
 ## 설치
 
 ```bash
-npm install @npm-registry/typescript
+npm install @starguide0/typescript
 ```
 
 또는
 
 ```bash
-pnpm add @npm-registry/typescript
+pnpm add @starguide0/typescript
 ```
 
 ## 개요
@@ -26,7 +26,7 @@ pnpm add @npm-registry/typescript
 
 ```json
 {
-  "extends": "@npm-registry/typescript/base.json",
+  "extends": "@starguide0/typescript/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src"
@@ -112,7 +112,7 @@ pnpm add @npm-registry/typescript
 
 ```json
 {
-  "extends": "@npm-registry/typescript/base.json",
+  "extends": "@starguide0/typescript/base.json",
   "compilerOptions": {
     "outDir": "./lib",
     "rootDir": "./src"
@@ -125,7 +125,7 @@ pnpm add @npm-registry/typescript
 
 ```json
 {
-  "extends": "@npm-registry/typescript/base.json",
+  "extends": "@starguide0/typescript/base.json",
   "compilerOptions": {
     "outDir": "./build",
     "rootDir": "./src",
@@ -140,7 +140,7 @@ pnpm add @npm-registry/typescript
 
 ```json
 {
-  "extends": "@npm-registry/typescript/base.json",
+  "extends": "@starguide0/typescript/base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

@@ -1,5 +1,5 @@
 /**
- * @npm-registry/shared-types
+ * @starguide0/shared-types
  *
  * TypeScript에서 기본적으로 제공하지 않는 유용한 유틸리티 타입들의 모음집입니다.
  * 이 타입들은 TypeScript 개발에서 자주 사용되는 패턴들을 도와줍니다.
@@ -11,7 +11,7 @@
  *
  * @example
  * ```typescript
- * import type { DeepPartial, Head, AsyncReturnType } from '@npm-registry/shared-types';
+ * import type { DeepPartial, Head, AsyncReturnType } from '@starguide0/shared-types';
  *
  * // 객체 타입을 재귀적으로 선택적으로 만들기
  * interface User {

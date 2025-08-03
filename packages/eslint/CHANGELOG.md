@@ -1,4 +1,4 @@
-# @npm-registry/eslint
+# @starguide0/eslint
 
 ## 1.2.0
 

@@ -1,4 +1,4 @@
-# @npm-registry/react-hooks
+# @starguide0/react-hooks
 
 ## 1.2.0
 

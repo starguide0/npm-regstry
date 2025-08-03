@@ -1,5 +1,5 @@
 {
-  "name": "@npm-registry/eslint",
+  "name": "@starguide0/eslint",
   "version": "1.2.0",
   "description": "Shared ESLint configurations",
   "main": "dist/index.js",
