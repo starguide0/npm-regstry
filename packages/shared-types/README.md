@@ -27,7 +27,11 @@ pnpm add @starguide0/shared-types
 ### 기본 사용법
 
 ```typescript
-import type { DeepPartial, Head, AsyncReturnType } from '@starguide0/shared-types';
+import type {
+  DeepPartial,
+  Head,
+  AsyncReturnType,
+} from '@starguide0/shared-types';
 
 // 객체 타입을 재귀적으로 선택적으로 만들기
 interface User {
@@ -49,7 +53,7 @@ type FirstElement = Head<[string, number, boolean]>; // string
 
 // 비동기 함수의 반환 타입 추출
 async function fetchData(): Promise<{ data: string[] }> {
-  return { data: ["item1", "item2"] };
+  return Promise.resolve({ data: ['item1', 'item2'] });
 }
 type DataType = AsyncReturnType<typeof fetchData>; // { data: string[] }
 ```
@@ -87,11 +91,14 @@ type Config = DeepPartial<{
 }>;
 
 // 특정 타입의 속성만 선택
-type StringProps = PickByType<{
-  name: string;
-  age: number;
-  email: string;
-}, string>; // { name: string; email: string }
+type StringProps = PickByType<
+  {
+    name: string;
+    age: number;
+    email: string;
+  },
+  string
+>; // { name: string; email: string }
 ```
 
 ## 함수 조작 타입
@@ -162,8 +169,8 @@ type Reversed = Reverse<Numbers>; // [5, 4, 3, 2, 1]
 type ArrayLength = Length<Numbers>; // 5
 
 // 문자열 배열 조작
-type Words = ["hello", "world", "typescript"];
-type Sentence = Join<Words, " ">; // "hello world typescript"
+type Words = ['hello', 'world', 'typescript'];
+type Sentence = Join<Words, ' '>; // "hello world typescript"
 
 // 중첩 배열 평면화
 type NestedArray = [[1, 2], [3, [4, 5]], 6];

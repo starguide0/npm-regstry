@@ -38,7 +38,9 @@ export const baseFlatConfig: FlatESLintConfig[] = [
   },
 ];
 
-export const createFlatESLintConfig = (overrides: Partial<FlatESLintConfig> = {}): FlatESLintConfig[] => {
+export const createFlatESLintConfig = (
+  overrides: Partial<FlatESLintConfig> = {}
+): FlatESLintConfig[] => {
   return [
     {
       ...baseFlatConfig[0],

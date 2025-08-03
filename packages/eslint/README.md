@@ -53,6 +53,7 @@ export default [
 일반적인 TypeScript 프로젝트를 위한 기본 설정입니다.
 
 #### 포함된 규칙
+
 - **JavaScript 권장 설정**: ESLint의 기본 권장 규칙
 - **TypeScript 기본 규칙**:
   - `@typescript-eslint/no-unused-vars`: 사용하지 않는 변수 금지 (error)
@@ -60,12 +61,14 @@ export default [
   - `@typescript-eslint/no-explicit-any`: any 타입 사용 주의 (warn)
 
 #### 파서 설정
+
 - **파서**: `@typescript-eslint/parser`
 - **ECMAScript 버전**: 2020
 - **모듈 타입**: ES 모듈
 - **환경**: Node.js, ES2020
 
 #### 무시 파일
+
 - `dist/`
 - `node_modules/`
 - `*.js`
@@ -75,6 +78,7 @@ export default [
 라이브러리나 패키지 개발을 위한 더 엄격한 설정입니다.
 
 #### 추가 규칙 (base.js 기반)
+
 - `@typescript-eslint/explicit-function-return-type`: 함수 반환 타입 명시 필수 (error)
 - `@typescript-eslint/no-explicit-any`: any 타입 사용 금지 (error)
 - `no-console`: console 사용 주의 (warn)
@@ -84,10 +88,12 @@ export default [
 ## 설정 상세
 
 ### 지원 파일 형식
+
 - `**/*.ts`: TypeScript 파일
 - `**/*.tsx`: TypeScript JSX 파일
 
 ### 파서 옵션
+
 ```javascript
 {
   ecmaVersion: 2020,
@@ -96,6 +102,7 @@ export default [
 ```
 
 ### 환경 설정
+
 ```javascript
 {
   node: true,
@@ -117,14 +124,14 @@ export default [
     languageOptions: {
       parserOptions: {
         ecmaFeatures: {
-          jsx: true
-        }
-      }
+          jsx: true,
+        },
+      },
     },
     rules: {
-      'react/prop-types': 'off' // TypeScript를 사용하므로 prop-types 불필요
-    }
-  }
+      'react/prop-types': 'off', // TypeScript를 사용하므로 prop-types 불필요
+    },
+  },
 ];
 ```
 
@@ -137,9 +144,9 @@ export default [
   ...libraryConfig,
   {
     rules: {
-      'no-console': 'off' // 라이브러리에서 로깅이 필요한 경우
-    }
-  }
+      'no-console': 'off', // 라이브러리에서 로깅이 필요한 경우
+    },
+  },
 ];
 ```
 
@@ -152,12 +159,12 @@ import libraryConfig from '@starguide0/eslint/configs/library.js';
 export default [
   // 일반 소스 코드
   ...baseConfig,
-  
+
   // 패키지 디렉토리는 더 엄격한 규칙 적용
   {
     files: ['packages/*/src/**/*.ts'],
-    ...libraryConfig[1] // library 설정의 규칙 부분만 적용
-  }
+    ...libraryConfig[1], // library 설정의 규칙 부분만 적용
+  },
 ];
 ```
 
@@ -172,12 +179,12 @@ export default [
     rules: {
       // 기존 규칙 재정의
       '@typescript-eslint/no-explicit-any': 'error',
-      
+
       // 새로운 규칙 추가
       'prefer-const': 'error',
-      'no-var': 'error'
-    }
-  }
+      'no-var': 'error',
+    },
+  },
 ];
 ```
 

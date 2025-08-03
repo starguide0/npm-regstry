@@ -6,9 +6,8 @@
     "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "jsx": "react-jsx"
+    "sourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "global.d.ts"],
   "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }

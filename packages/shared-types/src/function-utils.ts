@@ -42,11 +42,8 @@
  * // 결과: { data: string[]; count: number }
  * ```
  */
-export type AsyncReturnType<T extends (..._args: any) => Promise<any>> = T extends (
-  ..._args: any
-) => Promise<infer R>
-  ? R
-  : never;
+export type AsyncReturnType<T extends (..._args: any) => Promise<any>> =
+  T extends (..._args: any) => Promise<infer R> ? R : never;
 
 /**
  * 함수의 매개변수 타입들을 튜플로 추출하는 유틸리티 타입
@@ -272,7 +269,10 @@ export type OptionalParameters<T extends (...args: any) => any> = T extends (
  * const result = addBrackets("내용"); // "[내용]"
  * ```
  */
-export type Curry<T> = T extends (first: infer F, ...rest: infer R) => infer Return
+export type Curry<T> = T extends (
+  first: infer F,
+  ...rest: infer R
+) => infer Return
   ? R extends []
     ? (arg: F) => Return
     : (arg: F) => Curry<(...args: R) => Return>
@@ -316,8 +316,9 @@ export type Curry<T> = T extends (first: infer F, ...rest: infer R) => infer Ret
  * const user = createInstance(User, "김철수", 25, "kim@example.com");
  * ```
  */
-export type ConstructorParameters<T extends abstract new (...args: any) => any> =
-  T extends abstract new (...args: infer P) => any ? P : never;
+export type ConstructorParameters<
+  T extends abstract new (...args: any) => any,
+> = T extends abstract new (...args: infer P) => any ? P : never;
 
 /**
  * 생성자 함수로부터 인스턴스 타입을 추출하는 유틸리티 타입

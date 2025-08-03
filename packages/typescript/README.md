@@ -75,24 +75,29 @@ pnpm add @starguide0/typescript
 ## 설정 상세
 
 ### 타겟 및 라이브러리
+
 - `target: "ES2020"`: ES2020 문법으로 컴파일
 - `lib: ["ES2020"]`: ES2020 라이브러리 사용
 
 ### 모듈 시스템
+
 - `module: "ESNext"`: 최신 ES 모듈 시스템 사용
 - `moduleResolution: "node"`: Node.js 스타일 모듈 해석
 - `resolveJsonModule: true`: JSON 파일 import 허용
 
 ### 엄격성 및 타입 검사
+
 - `strict: true`: 모든 엄격한 타입 검사 옵션 활성화
 - `forceConsistentCasingInFileNames: true`: 파일명 대소문자 일관성 강제
 
 ### 호환성
+
 - `allowJs: true`: JavaScript 파일 허용
 - `esModuleInterop: true`: CommonJS와 ES 모듈 간 상호 운용성 개선
 - `skipLibCheck: true`: 라이브러리 타입 검사 건너뛰기
 
 ### 출력 및 성능
+
 - `declaration: true`: 타입 선언 파일(.d.ts) 생성
 - `declarationMap: true`: 선언 파일 소스맵 생성
 - `sourceMap: true`: 소스맵 파일 생성
@@ -100,7 +105,9 @@ pnpm add @starguide0/typescript
 - `incremental: true`: 증분 컴파일 활성화
 
 ### 제외 파일
+
 기본적으로 다음 파일들이 컴파일에서 제외됩니다:
+
 - `node_modules`
 - `dist`
 - `**/*.test.ts`
@@ -148,9 +155,7 @@ pnpm add @starguide0/typescript
       "@shared/*": ["../shared/src/*"]
     }
   },
-  "references": [
-    { "path": "../shared" }
-  ]
+  "references": [{ "path": "../shared" }]
 }
 ```
 

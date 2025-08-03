@@ -46,7 +46,7 @@
  */
 export type Head<T extends readonly unknown[]> = T extends readonly [
   infer H,
-  ...unknown[]
+  ...unknown[],
 ]
   ? H
   : never;
@@ -90,7 +90,7 @@ export type Head<T extends readonly unknown[]> = T extends readonly [
  */
 export type Tail<T extends readonly unknown[]> = T extends readonly [
   unknown,
-  ...infer Rest
+  ...infer Rest,
 ]
   ? Rest
   : [];
@@ -136,7 +136,7 @@ export type Tail<T extends readonly unknown[]> = T extends readonly [
  */
 export type Last<T extends readonly unknown[]> = T extends readonly [
   ...unknown[],
-  infer L
+  infer L,
 ]
   ? L
   : never;
@@ -180,7 +180,7 @@ export type Last<T extends readonly unknown[]> = T extends readonly [
  */
 export type Init<T extends readonly unknown[]> = T extends readonly [
   ...infer Rest,
-  unknown
+  unknown,
 ]
   ? Rest
   : [];
@@ -362,7 +362,7 @@ export type IsNotEmpty<T extends readonly unknown[]> = T extends readonly []
  */
 export type Reverse<T extends readonly unknown[]> = T extends readonly [
   infer First,
-  ...infer Rest
+  ...infer Rest,
 ]
   ? [...Reverse<Rest>, First]
   : [];
@@ -406,7 +406,7 @@ export type Reverse<T extends readonly unknown[]> = T extends readonly [
  */
 export type Flatten<T extends readonly unknown[]> = T extends readonly [
   infer First,
-  ...infer Rest
+  ...infer Rest,
 ]
   ? First extends readonly unknown[]
     ? [...Flatten<First>, ...Flatten<Rest>]
@@ -454,10 +454,10 @@ export type Flatten<T extends readonly unknown[]> = T extends readonly [
  * // 결과: "btn-primary-large"
  * ```
  */
-export type Join<T extends readonly string[], S extends string = ','> = T extends readonly [
-  infer First,
-  ...infer Rest
-]
+export type Join<
+  T extends readonly string[],
+  S extends string = ',',
+> = T extends readonly [infer First, ...infer Rest]
   ? First extends string
     ? Rest extends readonly string[]
       ? Rest['length'] extends 0
@@ -509,7 +509,10 @@ export type Join<T extends readonly string[], S extends string = ','> = T extend
  * // 결과: ["https:", "", "example.com", "api", "users"]
  * ```
  */
-export type Split<S extends string, D extends string = ''> = S extends `${infer First}${D}${infer Rest}`
+export type Split<
+  S extends string,
+  D extends string = '',
+> = S extends `${infer First}${D}${infer Rest}`
   ? [First, ...Split<Rest, D>]
   : [S];
 
@@ -558,9 +561,11 @@ export type Split<S extends string, D extends string = ''> = S extends `${infer 
  * // 결과: []
  * ```
  */
-export type Repeat<T, N extends number, Result extends T[] = []> = Result['length'] extends N
-  ? Result
-  : Repeat<T, N, [...Result, T]>;
+export type Repeat<
+  T,
+  N extends number,
+  Result extends T[] = [],
+> = Result['length'] extends N ? Result : Repeat<T, N, [...Result, T]>;
 
 /**
  * 배열의 특정 인덱스에 있는 요소의 타입을 추출하는 유틸리티 타입
@@ -660,7 +665,7 @@ export type At<T extends readonly unknown[], I extends number> = T[I];
  */
 export type Includes<T extends readonly unknown[], U> = T extends readonly [
   infer First,
-  ...infer Rest
+  ...infer Rest,
 ]
   ? First extends U
     ? true

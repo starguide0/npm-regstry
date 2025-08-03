@@ -59,7 +59,7 @@ const ConfigComponent = () => {
   const config = useInstance(() => ({
     apiUrl: process.env.REACT_APP_API_URL,
     timeout: 5000,
-    retries: 3
+    retries: 3,
   }));
 
   return <div>API URL: {config.apiUrl}</div>;

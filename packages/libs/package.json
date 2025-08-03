@@ -1,0 +1,38 @@
+{
+  "name": "@starguide0/libs",
+  "version": "1.0.0",
+  "description": "Shared utility functions and helpers",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "utilities",
+    "helpers",
+    "shared",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/starguide0/npm-regstry.git",
+    "directory": "packages/libs"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/node": "^20.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  }
+}

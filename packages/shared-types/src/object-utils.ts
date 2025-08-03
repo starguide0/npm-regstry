@@ -353,7 +353,8 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
  * };
  * ```
  */
-export type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+export type RequiredBy<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
 
 /**
  * 중첩된 객체 타입을 평면화(flatten)하는 유틸리티 타입
