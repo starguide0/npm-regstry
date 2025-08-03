@@ -1,5 +1,20 @@
 # @starguide0/shared-types
 
+## 1.2.4
+
+### Patch Changes
+
+- - **기타**
+    - 코드 정리 및 새로운 패키지 추가 (b159fc8)
+  - **기타 변경사항**
+    - Version: Update package.json and changelogs (cfc3066)
+    - Version: Update package.json and changelogs (b9aa54f)
+    - Version: Update package.json and changelogs (b7ad2cc)
+    - ### chore: 프로젝트 스코프 명칭 변경 및 자동화 스크립트 추가 (c34f1c0)
+    - Version Packages (2d30d0c)
+
+  **관련 PR**: [#26](https://github.com/starguide0/npm-regstry/pull/26)
+
 ## 1.2.3
 
 ### Patch Changes
