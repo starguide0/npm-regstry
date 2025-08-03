@@ -55,11 +55,9 @@ jobs:
         id: changes
         run: |
           git status --porcelain
-          if [[ $(git status --porcelain | grep "^M\|^A\|^D") ]]; then
-            echo "Changes exist. Setting changes_exist to true."
+          if [[ $(git status --porcelain) ]]; then
             echo "changes_exist=true" >> $GITHUB_OUTPUT
           else
-            echo "No changes found. Setting changes_exist to false."
             echo "changes_exist=false" >> $GITHUB_OUTPUT
           fi
 
