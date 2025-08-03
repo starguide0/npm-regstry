@@ -1,23 +1,18 @@
 # .github/workflows/publish.yml
-name: Release and Publish Packages
+name: Publish Packages
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '.changeset/**'
+  release:
+    types: [published]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
-    name: Release
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Git 푸시 및 커밋을 위해 필요
       packages: write # 패키지 발행을 위해 필요
-      pull-requests: read # PR을 생성하지 않으므로 읽기 권한만 있어도 충분
 
     steps:
       - name: Checkout repository
@@ -44,37 +39,7 @@ jobs:
       - name: Build all packages
         run: pnpm build
 
-      - name: Run Changeset Version
-        # changesets 액션을 사용하지 않고 CLI 명령을 직접 실행합니다.
-        run: pnpm version-packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check for Changes
-        id: changes
-        run: |
-          git status --porcelain
-          if [[ $(git status --porcelain | grep "^M\|^A\|^D") ]]; then
-            echo "changes_exist=true" >> $GITHUB_OUTPUT
-          else
-            echo "changes_exist=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Commit and Publish if Changes Exist
-        if: steps.changes.outputs.changes_exist == 'true'
-        run: |
-          # Git 사용자 정보를 설정합니다.
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          # 변경사항을 커밋합니다.
-          git add .
-          git commit -m "Release: Version Packages"
-          
-          # 버전 변경 커밋을 main 브랜치에 푸시합니다.
-          git push origin HEAD:main
-          
-          # 패키지를 발행합니다.
-          pnpm release
+      - name: Publish Packages
+        run: pnpm release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
