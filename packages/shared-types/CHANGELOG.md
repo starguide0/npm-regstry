@@ -1,5 +1,13 @@
 # @starguide0/shared-types
 
+## 1.2.1
+
+### Patch Changes
+
+- - **기타 변경사항**
+    - ### chore: 프로젝트 스코프 명칭 변경 및 자동화 스크립트 추가
+    - Version Packages
+
 ## 1.2.0
 
 ### Minor Changes
