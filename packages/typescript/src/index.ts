@@ -14,7 +14,9 @@ export const defaultTsConfig: BaseConfig = {
   strict: true,
 };
 
-export const createTsConfig = (overrides: Partial<BaseConfig> = {}): BaseConfig => {
+export const createTsConfig = (
+  overrides: Partial<BaseConfig> = {}
+): BaseConfig => {
   return {
     ...defaultTsConfig,
     ...overrides,

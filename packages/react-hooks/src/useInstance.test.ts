@@ -24,9 +24,15 @@ describe('useInstance', () => {
     const numberInitFunc = vi.fn(() => 42);
     const objectInitFunc = vi.fn(() => ({ name: 'test' }));
 
-    const { result: stringResult } = renderHook(() => useInstance(stringInitFunc));
-    const { result: numberResult } = renderHook(() => useInstance(numberInitFunc));
-    const { result: objectResult } = renderHook(() => useInstance(objectInitFunc));
+    const { result: stringResult } = renderHook(() =>
+      useInstance(stringInitFunc)
+    );
+    const { result: numberResult } = renderHook(() =>
+      useInstance(numberInitFunc)
+    );
+    const { result: objectResult } = renderHook(() =>
+      useInstance(objectInitFunc)
+    );
 
     expect(stringResult.current).toBe('test-string');
     expect(numberResult.current).toBe(42);
