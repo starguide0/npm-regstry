@@ -39,8 +39,28 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # NODE_AUTH_TOKEN 환경 변수 추가
 
+      - name: Get PR Number
+        id: pr_number
+        run: |
+          # Extract PR number from commit message (format: "Merge pull request #123 from...")
+          PR_NUM=$(git log -1 --pretty=format:"%s" | grep -o '#[0-9]\+' | head -1 | sed 's/#//')
+          if [ -z "$PR_NUM" ]; then
+            # If no PR number found in commit message, try to find associated PR via GitHub API
+            COMMIT_SHA="${{ github.sha }}"
+            PR_NUM=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA/pulls" | \
+              jq -r '.[0].number // empty')
+          fi
+          echo "pr_number=${PR_NUM}" >> $GITHUB_OUTPUT
+          echo "Found PR number: ${PR_NUM}"
+
       - name: Generate Auto Changesets
-        run: pnpm changeset:auto
+        run: |
+          if [ -n "${{ steps.pr_number.outputs.pr_number }}" ]; then
+            pnpm changeset:auto "https://github.com/${{ github.repository }}/pull/${{ steps.pr_number.outputs.pr_number }}"
+          else
+            pnpm changeset:auto
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
