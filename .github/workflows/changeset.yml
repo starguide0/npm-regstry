@@ -105,7 +105,8 @@ ci: Version packages and update changelogs
 
 Changes included in this release:
 ${COMMIT_LOGS}
-EOF)
+EOF
+)
           else
             echo "⏩ Non-merge commit detected. Using the commit message directly."
             # 머지 커밋이 아닌 경우 (예: main에 직접 커밋), 해당 커밋 메시지를 그대로 사용합니다.
@@ -114,7 +115,8 @@ EOF)
 ${COMMIT_MSG}
 
 ci: Version packages and update changelogs
-EOF)
+EOF
+)
           fi
   
           # 여러 줄의 커밋 메시지를 다음 단계로 안전하게 전달합니다.
