@@ -16,6 +16,9 @@ export default [
         node: true,
         es2020: true,
       },
+      env: {
+        node: true,
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
