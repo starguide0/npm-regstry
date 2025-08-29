@@ -92,19 +92,20 @@ jobs:
             MERGE_MSG_TITLE=$(git log -1 --pretty=%s)
             COMMIT_LOGS=$(git log HEAD^2 --not HEAD^1 --pretty="format:- %s")
 
-            FINAL_MSG="${MERGE_MSG_TITLE}
-
-ci: Version packages and update changelogs
-
-Changes included in this release:
-${COMMIT_LOGS}"
+            TITLE="${MERGE_MSG_TITLE}"
+            printf -v FINAL_MSG "%s\n\n%s\n\n%s\n%s" \
+                "${TITLE}" \
+                "ci: Version packages and update changelogs" \
+                "Changes included in this release:" \
+                "${COMMIT_LOGS}"
           else
             echo "⏩ Non-merge commit detected. Using the commit message directly."
 
             COMMIT_MSG=$(git log -1 --pretty=%s)
 
-            FINAL_MSG="${COMMIT_MSG}
-ci: Version packages and update changelogs"
+            printf -v FINAL_MSG "%s\n\n%s" \
+              "${COMMIT_MSG}" \
+              "ci: Version packages and update changelogs"
           fi
 
           echo "message<<EOF" >> $GITHUB_OUTPUT
