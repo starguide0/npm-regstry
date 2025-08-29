@@ -54,13 +54,16 @@ jobs:
           echo "pr_number=${PR_NUM}" >> $GITHUB_OUTPUT
           echo "Found PR number: ${PR_NUM}"
 
-      - name: Generate Auto Changesets
+      - name: Warn - Auto Changesets skipped
+        if: ${{ !steps.pr_number.outputs.pr_number }}
         run: |
-          if [ -n "${{ steps.pr_number.outputs.pr_number }}" ]; then
-            pnpm changeset:auto "https://github.com/${{ github.repository }}/pull/${{ steps.pr_number.outputs.pr_number }}"
-          else
-            pnpm changeset:auto
-          fi
+          echo "::warning::Auto changeset generation skipped: No PR number detected for commit ${{ github.sha }} on branch ${{ github.ref_name }}."
+
+      - name: Generate Auto Changesets
+        if: ${{ steps.pr_number.outputs.pr_number }}
+        run: |
+          TARGET_BRANCH="${{ github.ref_name }}"
+          pnpm changeset:auto "https://github.com/${{ github.repository }}/pull/${{ steps.pr_number.outputs.pr_number }}" "$TARGET_BRANCH"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
