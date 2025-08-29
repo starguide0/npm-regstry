@@ -1,6 +1,6 @@
 {
   "name": "@starguide0/libs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Shared utility functions and helpers",
   "type": "module",
   "main": "dist/index.js",
