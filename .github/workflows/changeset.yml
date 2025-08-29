@@ -88,12 +88,10 @@ jobs:
         run: |
           if [ $(git cat-file -p HEAD | grep -c "^parent") -eq 2 ]; then
             echo "✅ Merge commit detected. Aggregating messages from the branch."
-          
+
             MERGE_MSG_TITLE=$(git log -1 --pretty=%s)
             COMMIT_LOGS=$(git log HEAD^2 --not HEAD^1 --pretty="format:- %s")
-          
-            # [수정] 복잡한 cat <<EOF 대신, 큰따옴표를 사용해 여러 줄 문자열을 안전하게 할당합니다.
-            # 이 방식은 YAML 파서가 오해하지 않습니다.
+
             FINAL_MSG="${MERGE_MSG_TITLE}
 
 ci: Version packages and update changelogs
@@ -102,16 +100,13 @@ Changes included in this release:
 ${COMMIT_LOGS}"
           else
             echo "⏩ Non-merge commit detected. Using the commit message directly."
-        
-            COMMIT_MSG=$(git log -1 --pretty=%s)
-            
-            # [수정] 여기도 마찬가지로 큰따옴표를 사용합니다.
-            FINAL_MSG="${COMMIT_MSG}
 
+            COMMIT_MSG=$(git log -1 --pretty=%s)
+
+            FINAL_MSG="${COMMIT_MSG}
 ci: Version packages and update changelogs"
           fi
-          
-          # 이 부분은 GITHUB_OUTPUT에 값을 쓰는 올바른 방식이므로 그대로 둡니다.
+
           echo "message<<EOF" >> $GITHUB_OUTPUT
           echo "$FINAL_MSG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
