@@ -1,5 +1,27 @@
 # @starguide0/typescript
 
+## 1.3.0
+
+### Minor Changes
+
+- - **새로운 기능**
+    - 함수 및 객체 조작을 위한 유틸리티 타입 추가 (e179093)
+  - **기타**
+    - 버전수정 및 jsdoc 수정 (c1778f2)
+    - 코드 정리 및 새로운 패키지 추가 (b159fc8)
+    - .npmrc 및 package.json 설정 수정 (32b0ef1)
+  - **기타 변경사항**
+    - Merge pull request #34 from starguide0/fix/pr-message-bug (026eebb)
+    - Version: Update package.json and changelogs (3e8bf61)
+    - Version: Update package.json and changelogs (47a43c0)
+    - Version: Update package.json and changelogs (cfc3066)
+    - Version: Update package.json and changelogs (b9aa54f)
+    - Version: Update package.json and changelogs (b7ad2cc)
+    - ### chore: 프로젝트 스코프 명칭 변경 및 자동화 스크립트 추가 (c34f1c0)
+    - Version Packages (2d30d0c)
+
+  **관련 PR**: [#36](https://github.com/starguide0/npm-regstry/pull/36)
+
 ## 1.2.0
 
 ### Minor Changes
