@@ -82,13 +82,56 @@ jobs:
             echo "changes_exist=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Aggregate Commit Messages from Merged Branch
+        if: steps.changes.outputs.changes_exist == 'true'
+        id: commit_info
+        run: |
+          if [ $(git cat-file -p HEAD | grep -c "^parent") -eq 2 ]; then
+            echo "✅ Merge commit detected. Aggregating messages from the branch."
+
+            # 원본 머지 커밋 메시지를 가져옵니다. (예: "Merge pull request #123 from feature/login")
+            MERGE_MSG_TITLE=$(git log -1 --pretty=%s)
+
+            # 머지된 브랜치에만 포함된 커밋 목록을 생성합니다.
+            # HEAD^1: main 브랜치의 이전 커밋
+            # HEAD^2: 머지된 기능 브랜치의 마지막 커밋
+            COMMIT_LOGS=$(git log HEAD^2 --not HEAD^1 --pretty="format:- %s")
+
+            # 최종 커밋 메시지를 조합합니다.
+            FINAL_MSG=$(cat <<EOF
+${MERGE_MSG_TITLE}
+
+ci: Version packages and update changelogs
+
+Changes included in this release:
+${COMMIT_LOGS}
+EOF)
+          else
+            echo "⏩ Non-merge commit detected. Using the commit message directly."
+            # 머지 커밋이 아닌 경우 (예: main에 직접 커밋), 해당 커밋 메시지를 그대로 사용합니다.
+            COMMIT_MSG=$(git log -1 --pretty=%s)
+            FINAL_MSG=$(cat <<EOF
+${COMMIT_MSG}
+
+ci: Version packages and update changelogs
+EOF)
+          fi
+  
+          # 여러 줄의 커밋 메시지를 다음 단계로 안전하게 전달합니다.
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$FINAL_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Commit Version Changes
         if: steps.changes.outputs.changes_exist == 'true'
+        env:
+          COMMIT_MESSAGE: ${{ steps.commit_info.outputs.message }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add .
-          git commit -m "Version: Update package.json and changelogs"
+          # 이전 단계에서 생성한 동적인 커밋 메시지를 사용합니다.
+          git commit -m "$COMMIT_MESSAGE"
 
           git push origin HEAD:main
