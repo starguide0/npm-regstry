@@ -8,7 +8,7 @@ on:
 jobs:
   version:
     # 봇이 생성한 버전 커밋("ci: version packages...")에 대해서는 실행되지 않도록 하여 중복 실행 방지
-    if: "!contains(github.event.head_commit.message, vars.BOT_COMMIT_MESSAGE)"
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     permissions:
       # 액션이 main 브랜치에 커밋을 푸시하기 위해 contents: write 권한이 필요합니다.
