@@ -1,0 +1,72 @@
+name: Add Changeset on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  get-commit-message:
+    runs-on: ubuntu-latest
+    outputs:
+      message: ${{ steps.get_message.outputs.message }}
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Get REAL latest commit message
+        id: get_message
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%s HEAD)
+          echo "message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
+
+  add-changeset:
+    needs: get-commit-message
+    if: "!contains(needs.get-commit-message.outputs.message, vars.BOT_COMMIT_MESSAGE)"
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js and pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up old auto-changeset files for this PR
+        run: rm -f .changeset/auto-pr-${{ github.event.pull_request.number }}-*.md
+
+      - name: Generate Auto Changesets
+        run: |
+          TARGET_BRANCH="origin/${{ github.base_ref }}"
+          pnpm changeset:auto ${{ github.event.pull_request.html_url }} ${{ github.head_ref }} $TARGET_BRANCH ${{ github.event.pull_request.number }}
+
+      - name: Commit and Push Changeset File
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          if [[ -n $(git status --porcelain .changeset) ]]; then
+            git add .changeset
+            git commit -m "${{vars.BOT_COMMIT_MESSAGE}}"
+            git push
+          else
+            echo "No changes in changeset files to commit."
+          fi

@@ -1,0 +1,37 @@
+{
+  "name": "npm-registry",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
+    "test": "turbo run test",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "changeset:auto": "node scripts/auto-changeset.mjs",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish --registry https://npm.pkg.github.com/"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.5",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^9.0.0",
+    "prettier": "^3.2.5",
+    "turbo": "^1.13.2",
+    "typescript": "^5.4.5",
+    "vitest": "^3.2.4"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Monorepo for npm packages with turborepo and pnpm"
+}

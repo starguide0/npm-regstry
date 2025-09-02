@@ -1,0 +1,49 @@
+name: Version Packages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    # 봇이 생성한 버전 커밋("ci: version packages...")에 대해서는 실행되지 않도록 하여 중복 실행 방지
+    if: "!contains(github.event.head_commit.message, 'ci: version packages')"
+    runs-on: ubuntu-latest
+    permissions:
+      # 액션이 main 브랜치에 커밋을 푸시하기 위해 contents: write 권한이 필요합니다.
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # GITHUB_TOKEN을 사용하여 main 브랜치에 푸시할 수 있도록 설정합니다.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js and pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Version Commit
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # .changeset/*.md 파일을 소모하여 버전 업데이트 후 main 브랜치에 바로 커밋합니다.
+          commit: "ci: version packages and update changelogs"
+        env:
+          # 커밋 푸시를 위해 GITHUB_TOKEN이 필요합니다.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

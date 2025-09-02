@@ -1,0 +1,8 @@
+{
+  "extends": "./packages/typescript/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  }
+}
