@@ -174,7 +174,3 @@ pnpm test
 # 린트 검사
 pnpm lint
 ```
-
-## 라이선스
-
-ISC
