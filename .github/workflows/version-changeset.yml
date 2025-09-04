@@ -13,7 +13,6 @@ jobs:
     permissions:
       # 액션이 main 브랜치에 커밋을 푸시하기 위해 contents: write 권한이 필요합니다.
       contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -39,12 +38,20 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Version Commit
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          # .changeset/*.md 파일을 소모하여 버전 업데이트 후 main 브랜치에 바로 커밋합니다.
-          commit: "ci: version packages and update changelogs"
-        env:
-          # 커밋 푸시를 위해 GITHUB_TOKEN이 필요합니다.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Version & Update Changelogs
+        run: pnpm changeset version
+          # 이 명령어가 package.json 버전 업데이트와 CHANGELOG.md 파일을 생성/수정합니다.
+
+      - name: Commit & Push version changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # 'changeset version' 실행 후 변경된 파일이 있는지 확인합니다.
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "ci: version packages and update changelogs"
+            git push
+          else
+            echo "No version changes to commit."
+          fi
