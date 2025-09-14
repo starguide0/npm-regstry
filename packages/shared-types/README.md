@@ -22,6 +22,19 @@ pnpm add @starguide0/shared-types
 - **함수 조작 타입**: 함수의 매개변수, 반환 타입, 비동기 처리 등을 분석
 - **배열 조작 타입**: 배열과 튜플의 요소를 추출, 변환, 검사
 
+## 폴더 구조
+
+- src/
+  - index.ts: 패키지 공개 API를 한 곳에서 재내보내는 엔트리 파일
+  - object-utils.ts: 객체 조작 관련 유틸리티 타입 모음
+  - array-utils.ts: 배열/튜플 조작 관련 유틸리티 타입 모음
+  - function-utils.ts: 함수/생성자 관련 유틸리티 타입 모음
+  - notation.ts: 문자열 표기법 변환 유틸리티 타입 모음 (camel/pascal/snake/kebab)
+- dist/: 빌드 산출물 (publish 시 포함)
+- package.json, tsconfig.json, README.md, CHANGELOG.md
+
+참고: array-utils의 Flatten 타입은 object-utils의 Flatten과 이름이 겹쳐, 공개 API에서는 ArrayFlatten으로 재내보냅니다.
+
 ## 사용법
 
 ### 기본 사용법
@@ -108,7 +121,6 @@ type StringProps = PickByType<
 ### 사용 가능한 타입들
 
 - `AsyncReturnType<T>`: 비동기 함수의 반환 타입을 추출합니다
-- `Parameters<T>`: 함수의 매개변수 타입들을 튜플로 추출합니다
 - `FirstParameter<T>`: 함수의 첫 번째 매개변수 타입을 추출합니다
 - `LastParameter<T>`: 함수의 마지막 매개변수 타입을 추출합니다
 - `FunctionWithParams<P, R>`: 지정된 매개변수와 반환 타입을 가진 함수 타입을 생성합니다
@@ -175,6 +187,26 @@ type Sentence = Join<Words, ' '>; // "hello world typescript"
 // 중첩 배열 평면화
 type NestedArray = [[1, 2], [3, [4, 5]], 6];
 type FlatArray = ArrayFlatten<NestedArray>; // [1, 2, 3, 4, 5, 6]
+```
+
+## 문자열 표기법 변환 타입
+
+문자열의 표기법을 타입 레벨에서 변환합니다. 케밥/스네이크/카멜/파스칼 간 상호 변환을 지원합니다.
+
+### 사용 가능한 타입들
+
+- `CamelCase<S>`: kebab/snake/Pascal을 camelCase로 변환
+- `PascalCase<S>`: kebab/snake/camel을 PascalCase로 변환
+- `SnakeCase<S>`: camel/Pascal/kebab을 snake_case로 변환
+- `KebabCase<S>`: camel/Pascal/snake를 kebab-case로 변환
+
+### 예제
+
+```typescript
+type A = CamelCase<'extract-components'>; // 'extractComponents'
+type B = PascalCase<'on_error'>;          // 'OnError'
+type C = SnakeCase<'DeepCaseX'>;          // 'deep_case_x'
+type D = KebabCase<'deep__Case--X'>;      // 'deep-case-x'
 ```
 
 ## 개발
