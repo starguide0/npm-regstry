@@ -1,0 +1,44 @@
+{
+  "name": "@starguide0/react-hooks",
+  "version": "1.0.0",
+  "description": "Shared React hooks",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "react-hooks",
+    "config",
+    "shared"
+  ],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/starguide0/npm-regstry.git",
+    "directory": "packages/react-hooks"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@testing-library/react": "^14.0.0",
+    "jsdom": "^23.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  }
+}
